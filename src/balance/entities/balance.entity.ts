@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { BalanceUtil } from '../../common/utils/balance.util';
 
@@ -8,9 +16,9 @@ export class Balance {
   id: string;
 
   // Храним баланс в минорных единицах как строку для совместимости с БД
-  @Column('varchar', { 
+  @Column('varchar', {
     default: '0',
-    comment: 'Баланс в минорных единицах (например, копейки)' 
+    comment: 'Баланс в минорных единицах (например, копейки)',
   })
   amountMinorUnits: string;
 

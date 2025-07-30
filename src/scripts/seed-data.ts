@@ -64,7 +64,6 @@ async function seedData() {
     console.log('- REPEAT50 (50₽, многоразовый)');
     console.log('- LIMITED10 (1000₽, одноразовый, лимит 10 активаций)');
     console.log('- EXPIRED (200₽, истекший, для тестирования ошибок)');
-
   } catch (error) {
     console.error('❌ Ошибка при создании тестовых данных:', error);
   } finally {

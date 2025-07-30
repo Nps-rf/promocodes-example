@@ -40,7 +40,7 @@ export class UsersService {
       userId: savedUser.id,
       amountMinorUnits: '0',
     });
-    
+
     await this.balanceRepository.save(balance);
 
     return savedUser;

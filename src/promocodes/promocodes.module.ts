@@ -9,10 +9,7 @@ import { BalanceModule } from '../balance/balance.module';
 import { RolesGuard } from '../auth/guards/roles.guard';
 
 @Module({
-  imports: [
-    TypeOrmModule.forFeature([Promocode, PromocodeUsage, Balance]),
-    BalanceModule,
-  ],
+  imports: [TypeOrmModule.forFeature([Promocode, PromocodeUsage, Balance]), BalanceModule],
   controllers: [PromocodesController],
   providers: [PromocodesService, RolesGuard],
   exports: [PromocodesService],

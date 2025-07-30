@@ -12,13 +12,13 @@ export class HealthController {
   @Get()
   async checkHealth() {
     const startTime = Date.now();
-    
+
     try {
       // Проверяем подключение к базе данных
       await this.dataSource.query('SELECT 1');
-      
+
       const responseTime = Date.now() - startTime;
-      
+
       return {
         status: 'ok',
         timestamp: new Date().toISOString(),
@@ -33,7 +33,7 @@ export class HealthController {
       };
     } catch (error) {
       const responseTime = Date.now() - startTime;
-      
+
       return {
         status: 'error',
         timestamp: new Date().toISOString(),
@@ -55,7 +55,7 @@ export class HealthController {
     try {
       // Проверяем что база данных доступна
       await this.dataSource.query('SELECT 1');
-      
+
       return {
         status: 'ready',
         timestamp: new Date().toISOString(),

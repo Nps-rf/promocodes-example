@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+  Index,
+} from 'typeorm';
 import { User } from '../../users/entities/user.entity';
 import { Promocode } from './promocode.entity';
 import { BalanceUtil } from '../../common/utils/balance.util';
@@ -18,8 +26,8 @@ export class PromocodeUsage {
   promocodeId: string;
 
   // Храним сумму добавленную к балансу в минорных единицах
-  @Column('varchar', { 
-    comment: 'Сумма добавленная к балансу в минорных единицах' 
+  @Column('varchar', {
+    comment: 'Сумма добавленная к балансу в минорных единицах',
   })
   amountAddedMinorUnits: string;
 

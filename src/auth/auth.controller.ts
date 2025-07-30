@@ -11,9 +11,12 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  async register(@Body() createUserDto: CreateUserDto, @Res({ passthrough: true }) response: Response) {
+  async register(
+    @Body() createUserDto: CreateUserDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const result = await this.authService.register(createUserDto);
-    
+
     // Устанавливаем cookie с токеном
     response.cookie('access_token', result.access_token, {
       httpOnly: true,
@@ -33,7 +36,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto, @Res({ passthrough: true }) response: Response) {
     const result = await this.authService.login(loginDto);
-    
+
     // Устанавливаем cookie с токеном
     response.cookie('access_token', result.access_token, {
       httpOnly: true,

@@ -59,7 +59,7 @@ export class BalanceUtil {
    */
   static add(a: bigint, b: bigint): bigint {
     const result = a + b;
-    
+
     if (result > this.MAX_BALANCE_VALUE) {
       throw new Error('Переполнение при сложении сумм баланса');
     }
@@ -122,7 +122,7 @@ export class BalanceUtil {
   static parse(input: string): bigint {
     const normalized = input.replace(',', '.').trim();
     const majorUnits = parseFloat(normalized);
-    
+
     if (isNaN(majorUnits)) {
       throw new Error('Некорректный формат суммы баланса');
     }

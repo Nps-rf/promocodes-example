@@ -1,4 +1,16 @@
-import { IsString, IsNumber, IsOptional, IsEnum, IsDateString, IsPositive, Min, Validate, ValidationArguments, ValidatorConstraint, ValidatorConstraintInterface } from 'class-validator';
+import {
+  IsString,
+  IsNumber,
+  IsOptional,
+  IsEnum,
+  IsDateString,
+  IsPositive,
+  Min,
+  Validate,
+  ValidationArguments,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+} from 'class-validator';
 import { PromocodeType } from '../entities/promocode.entity';
 import { BalanceUtil } from '../../common/utils/balance.util';
 

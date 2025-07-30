@@ -17,7 +17,7 @@ export class RolesGuard implements CanActivate {
     }
 
     const { user } = context.switchToHttp().getRequest();
-    
+
     if (!user?.email) {
       return false;
     }
@@ -26,6 +26,6 @@ export class RolesGuard implements CanActivate {
     // В реальном проекте здесь должна быть проверка роли из токена
     const userRole = user.email.startsWith('admin@') ? UserRole.ADMIN : UserRole.USER;
 
-    return requiredRoles.some((role) => userRole === role);
+    return requiredRoles.some(role => userRole === role);
   }
 }

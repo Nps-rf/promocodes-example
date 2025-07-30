@@ -26,7 +26,7 @@ export class BalanceService {
 
     const amountMinor = BalanceUtil.majorToMinor(amountMajor);
 
-    return this.dataSource.transaction(async (manager) => {
+    return this.dataSource.transaction(async manager => {
       let balance = await manager.findOne(Balance, {
         where: { userId },
         lock: { mode: 'pessimistic_write' }, // Блокируем строку для предотвращения race conditions
@@ -79,7 +79,7 @@ export class BalanceService {
 
     const amountMinor = BalanceUtil.majorToMinor(amountMajor);
 
-    return this.dataSource.transaction(async (manager) => {
+    return this.dataSource.transaction(async manager => {
       const balance = await manager.findOne(Balance, {
         where: { userId },
         lock: { mode: 'pessimistic_write' }, // Блокируем строку

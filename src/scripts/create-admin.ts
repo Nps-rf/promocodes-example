@@ -27,7 +27,7 @@ async function createAdmin() {
       console.log(`✅ Создан администратор: ${admin.email}`);
     } catch {
       console.log(`⚠️  Администратор уже существует, обновляем роль...`);
-      
+
       // Если пользователь уже существует, обновляем его роль
       const userRepository = dataSource.getRepository(User);
       admin = await userRepository.findOne({
@@ -49,7 +49,6 @@ async function createAdmin() {
     console.log('- POST /promocodes - создание промокодов');
     console.log('- GET /promocodes/:id/usages - просмотр истории активаций');
     console.log('- PATCH /promocodes/:id/deactivate - деактивация промокодов');
-
   } catch (error) {
     console.error('❌ Ошибка при создании администратора:', error);
   } finally {

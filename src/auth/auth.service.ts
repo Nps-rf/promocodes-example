@@ -29,9 +29,9 @@ export class AuthService {
 
   async login(loginDto: LoginDto) {
     const user = await this.validateUser(loginDto.email, loginDto.password);
-    
-    const payload = { 
-      email: user.email, 
+
+    const payload = {
+      email: user.email,
       sub: user.id,
       id: user.id,
     };
@@ -52,9 +52,9 @@ export class AuthService {
 
   async register(createUserDto: CreateUserDto) {
     const user = await this.usersService.create(createUserDto);
-    
-    const payload = { 
-      email: user.email, 
+
+    const payload = {
+      email: user.email,
       sub: user.id,
       id: user.id,
     };

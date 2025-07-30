@@ -1,4 +1,9 @@
-import { Injectable, NotFoundException, BadRequestException, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+  ConflictException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, DataSource } from 'typeorm';
 import { Promocode, PromocodeType } from './entities/promocode.entity';
@@ -106,7 +111,7 @@ export class PromocodesService {
 
     const amountMinor = BigInt(promocode.amountMinorUnits);
     const amountMajor = Number(amountMinor) / 100; // Делим на 100 для получения основных единиц
-    
+
     const updatedBalance = await this.balanceService.addToBalance(userId, amountMajor);
 
     const usage = this.promocodeUsageRepository.create({

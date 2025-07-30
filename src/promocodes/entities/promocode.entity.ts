@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { PromocodeUsage } from './promocode-usage.entity';
 import { BalanceUtil } from '../../common/utils/balance.util';
 
@@ -16,8 +23,8 @@ export class Promocode {
   code: string;
 
   // Храним сумму промокода в минорных единицах
-  @Column('varchar', { 
-    comment: 'Сумма промокода в минорных единицах' 
+  @Column('varchar', {
+    comment: 'Сумма промокода в минорных единицах',
   })
   amountMinorUnits: string;
 
