@@ -1,0 +1,13 @@
+# Исключаем из форматирования
+dist/
+node_modules/
+*.log
+.git
+.gitignore
+package-lock.json
+*.md
+*.yml
+*.yaml
+.env*
+Dockerfile*
+docker-compose*

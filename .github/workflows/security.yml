@@ -1,0 +1,80 @@
+name: Security
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+  schedule:
+    # Запускаем проверку безопасности каждый понедельник в 2:00 UTC
+    - cron: '0 2 * * 1'
+
+jobs:
+  security-audit:
+    name: Security Audit
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: npm ci
+
+    - name: Run security audit
+      run: npm audit --audit-level moderate
+
+    - name: Check for known vulnerabilities
+      run: npm audit --production --audit-level high
+
+  dependency-check:
+    name: Dependency Check
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@master
+      with:
+        scan-type: 'fs'
+        scan-ref: '.'
+        format: 'sarif'
+        output: 'trivy-results.sarif'
+
+    - name: Upload Trivy scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'trivy-results.sarif'
+
+  docker-security:
+    name: Docker Security Scan
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Build Docker image
+      run: docker build -t promocodes-app:latest .
+
+    - name: Run Trivy vulnerability scanner on Docker image
+      uses: aquasecurity/trivy-action@master
+      with:
+        image-ref: 'promocodes-app:latest'
+        format: 'sarif'
+        output: 'docker-trivy-results.sarif'
+
+    - name: Upload Docker scan results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: 'docker-trivy-results.sarif'
