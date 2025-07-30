@@ -7,7 +7,6 @@ on:
 
 permissions:
   contents: write
-  packages: write
 
 jobs:
   release:
@@ -29,49 +28,43 @@ jobs:
     - name: Install dependencies
       run: npm ci
 
-    - name: Build application
-      run: npm run build
-
-    - name: Create dist archive
+    - name: Lint and build
       run: |
-        tar -czf promocodes-app-${{ github.ref_name }}.tar.gz dist/
-        zip -r promocodes-app-${{ github.ref_name }}.zip dist/
+        npm run lint
+        npm run typecheck
+        npm run build
+
+    - name: Create release archives
+      run: |
+        # Создаем архивы с исходным кодом и собранным приложением
+        tar -czf promocodes-app-${{ github.ref_name }}.tar.gz dist/ package.json README.md Dockerfile docker-compose.yml Makefile
+        zip -r promocodes-app-${{ github.ref_name }}.zip dist/ package.json README.md Dockerfile docker-compose.yml Makefile
 
     - name: Generate changelog
       id: changelog
       run: |
-        echo "## What's Changed" > CHANGELOG.md
-        git log $(git describe --tags --abbrev=0 HEAD^)..HEAD --pretty=format:"- %s (%an)" >> CHANGELOG.md
-        echo "" >> CHANGELOG.md
-        echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/$(git describe --tags --abbrev=0 HEAD^)...${{ github.ref_name }}" >> CHANGELOG.md
+        if git describe --tags --abbrev=0 HEAD^ >/dev/null 2>&1; then
+          PREV_TAG=$(git describe --tags --abbrev=0 HEAD^)
+          echo "## 🚀 Changes in ${{ github.ref_name }}" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          git log ${PREV_TAG}..HEAD --pretty=format:"- %s (%an)" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "**Full Changelog**: https://github.com/${{ github.repository }}/compare/${PREV_TAG}...${{ github.ref_name }}" >> CHANGELOG.md
+        else
+          echo "## 🚀 Initial Release ${{ github.ref_name }}" > CHANGELOG.md
+          echo "" >> CHANGELOG.md
+          echo "Первый релиз системы промокодов" >> CHANGELOG.md
+        fi
 
-    - name: Create Release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
       with:
-        tag_name: ${{ github.ref_name }}
-        release_name: Release ${{ github.ref_name }}
         body_path: CHANGELOG.md
+        files: |
+          promocodes-app-${{ github.ref_name }}.tar.gz
+          promocodes-app-${{ github.ref_name }}.zip
         draft: false
         prerelease: false
-
-    - name: Upload Release Assets
-      uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./promocodes-app-${{ github.ref_name }}.tar.gz
-        asset_name: promocodes-app-${{ github.ref_name }}.tar.gz
-        asset_content_type: application/gzip
-
-    - name: Upload ZIP Release Asset
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./promocodes-app-${{ github.ref_name }}.zip
-        asset_name: promocodes-app-${{ github.ref_name }}.zip
-        asset_content_type: application/zip
