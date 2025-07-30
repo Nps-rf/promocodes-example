@@ -326,34 +326,15 @@ curl -X POST http://localhost:3000/promocodes/activate \\
    - Сборка приложения
    - Сборка Docker образа
 
-2. **Deploy (deploy.yml)** - деплой:
-   - Сборка и публикация Docker образа в GitHub Container Registry
-   - Автоматический деплой документации на GitHub Pages
-   - Триггер: push в main или создание тегов
-
-3. **Security (security.yml)** - проверки безопасности:
+2. **Security (security.yml)** - проверки безопасности:
    - npm audit для проверки уязвимостей
    - Trivy сканер для Docker образов
    - Еженедельные автоматические проверки
 
-4. **Release (release.yml)** - автоматические релизы:
+3. **Release (release.yml)** - автоматические релизы:
    - Создание GitHub релизов при создании тегов
    - Генерация changelog
    - Создание архивов с артефактами
-
-### Docker Images:
-
-Образы публикуются в GitHub Container Registry:
-```bash
-# Получить последний образ
-docker pull ghcr.io/your-username/promocodes-example:latest
-
-# Запустить с готовым образом
-docker run -p 3000:3000 \\
-  -e DB_HOST=your-db-host \\
-  -e DB_PASSWORD=your-password \\
-  ghcr.io/your-username/promocodes-example:latest
-```
 
 ### Создание релиза:
 
